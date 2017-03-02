@@ -88,6 +88,13 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
+        if(keyPressed == true){
+            isMarked(r, c) = true;
+            if(keyPressed == true){
+                isMarked(r, c) = false;
+                clicked = false;
+            }
+        }
         //your code here
     }
 
@@ -124,6 +131,27 @@ public class MSButton
     {
         int numBombs = 0;
         //your code here
+        if(isValid(row-1, col-1) == true && bombs.contains(buttons[row-1][col-1])){
+            numBombs ++;
+        }
+        if(isValid(row-1, col) == true && bombs.contains(buttons[row-1][col])){
+            numBombs ++;
+        }
+        if(isValid(row, col-1) == true && bombs.contains(buttons[row][col-1])){
+            numBombs ++;
+        }
+        if(isValid(row+1, col) == true && bombs.contains(buttons[row+1][col])){
+            numBombs ++;
+        }
+        if(isValid(row+1, col+1) == true && bombs.contains(buttons[row+1][col+1])){
+            numBombs ++;
+        }
+        if(isValid(row, col+1) == true && bombs.contains(buttons[row][col+1])){
+            numBombs ++;
+        }
+        if(isValid(row, col) == true && bombs.contains(buttons[row][col])){
+            numBombs ++;
+        }
         return numBombs;
     }
 }
