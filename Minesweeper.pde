@@ -50,10 +50,12 @@ public boolean isWon()
 public void displayLosingMessage()
 {
     //your code here
+    text("You Lose!", 200, 200);
 }
 public void displayWinningMessage()
 {
     //your code here
+    text("You Win!", 200, 200);
 }
 
 public class MSButton
@@ -88,14 +90,43 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        if(keyPressed == true){
-            isMarked(r, c) = true;
-            if(keyPressed == true){
-                isMarked(r, c) = false;
+        if(keyPressed){
+            marked =! marked;
+            if(marked == false){
                 clicked = false;
-            }
+            }  
         }
-        //your code here
+        else if(bombs.contains(this)){
+            displayLosingMessage();
+        }
+        else if(countBombs(r, c) > 0){
+            String numBombs = new String(" ");
+            numBombs = numBombs + countBombs(r, c);
+            setLabel(numBombs);
+        }
+        else{
+          if (isValid(r, c-1) == true && buttons[r][c-1].isMarked()){
+             buttons[r][c-1].mousePressed();
+          }
+          if(isValid(r-1, c) ==true && buttons[r-1][c].isMarked()){
+             buttons[r-1][c].mousePressed();
+          }
+          if(isValid(r, c+1) == true && buttons[r][c+1].isMarked()){
+             buttons[r][c+1].mousePressed();
+          }
+          if(isValid(r+1, c) == true && buttons[r+1][c].isMarked()){
+             buttons[r+1][c].mousePressed();
+          }
+          if(isValid(r, c) == true && buttons[r][c].isMarked()){
+             buttons[r][c].mousePressed();
+          }
+          if(isValid(r-1,c-1) == true && buttons[r-1][c-1].isMarked()){
+             buttons[r-1][c-1].mousePressed();
+          }
+          if(isValid(r+1, c+1) == true && buttons[r+1][c+1].isMarked()){
+             buttons[r+1][c+1].mousePressed();
+          }
+        }
     }
 
     public void draw () 
@@ -120,7 +151,7 @@ public class MSButton
     public boolean isValid(int r, int c)
     {
         //your code here
-        if(r < 10 && r >= 0 && c>= 0 && c < 10){
+        if(r < 20 && r >= 0 && c>= 0 && c < 20){
             return true;
         }
         else{
