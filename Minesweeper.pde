@@ -26,13 +26,12 @@ void setup ()
 public void setBombs()
 {
     bombs = new ArrayList<MSButton>();
-    for(int i = 0; i < 50; i ++){
+    for(int i = 0; i < 20; i ++){
         int r, c;
         r = (int)(Math.random()*20);
         c = (int)(Math.random()*20);
         if(!bombs.contains(buttons[r][c])){
             bombs.add(buttons[r][c]);
-            System.out.println(r + " , " + c);
         }
     }
 }
@@ -51,7 +50,7 @@ public boolean isWon()
             flagged = flagged + 1;
         }
     }
-    if(flagged == 50){
+    if(flagged == 20){
         return true;
     }
     //your code here
@@ -147,8 +146,8 @@ public class MSButton
           if(isValid(r+1, c) == true && !buttons[r+1][c].isClicked()){
              buttons[r+1][c].mousePressed();
           }
-          if(isValid(r, c) == true && !buttons[r][c].isClicked()){
-             buttons[r][c].mousePressed();
+          if(isValid(r+1, c-1) == true && !buttons[r+1][c-1].isClicked()){
+             buttons[r+1][c-1].mousePressed();
           }
           if(isValid(r-1,c-1) == true && !buttons[r-1][c-1].isClicked()){
              buttons[r-1][c-1].mousePressed();
@@ -156,24 +155,29 @@ public class MSButton
           if(isValid(r+1, c+1) == true && !buttons[r+1][c+1].isClicked()){
              buttons[r+1][c+1].mousePressed();
           }
+          if(isValid(r-1, c+1) == true && !buttons[r-1][c+1].isClicked()){
+             buttons[r-1][c+1].mousePressed();
+          }
         }
     }
 
     public void draw () 
     {    
         img = loadImage("flag.png");
-        img.resize(10, 10);
+        img.resize(15, 15);
         if (marked){
-            fill(0);
-            image(img, r, c);
+            image(img, (c*20), r*20);
+            fill(0, 0, 0, 5);
         }
-        else if( clicked && bombs.contains(this) ) 
+        else if( clicked && bombs.contains(this) ){ 
             fill(255,0,0);
-        else if(clicked)
+        }
+        else if(clicked){
             fill( 200 );
-        else 
+        }
+        else{ 
             fill( 100 );
-
+        }
         rect(x, y, width, height);
         fill(0);
         text(label,x+width/2,y+height/2);
@@ -184,7 +188,7 @@ public class MSButton
     }
     public boolean isValid(int r, int c)
     {
-        //your code here
+        //your code here 
         if(r < 20 && r >= 0 && c>= 0 && c < 20){
             return true;
         }
@@ -214,7 +218,10 @@ public class MSButton
         if(isValid(row, col+1) == true && bombs.contains(buttons[row][col+1])){
             numBombs ++;
         }
-        if(isValid(row, col) == true && bombs.contains(buttons[row][col])){
+        if(isValid(row-1, col+1) == true && bombs.contains(buttons[row-1][col+1])){
+            numBombs ++;
+        }
+        if(isValid(row+1, col-1) == true && bombs.contains(buttons[row+1][col-1])){
             numBombs ++;
         }
         return numBombs;
